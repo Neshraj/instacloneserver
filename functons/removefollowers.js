@@ -34,7 +34,7 @@ async function Removefollowers(data){
                     console.log('type is : ',sampledata);
                     sampledata.splice(index, 1);
                     console.log('type is : ',sampledata);
-                    sfollowersdata = sampledata.join(", ")
+                    sfollowersdata = sampledata.join(",")
                     console.log(sfollowersdata);
                 }
                 let nsfollowersdata=sfollowersdata;
@@ -58,7 +58,7 @@ async function Removefollowers(data){
                     console.log('type is : ',sampledata);
                     sampledata.splice(index, 1);
                     console.log('type is : ',sampledata);
-                    sfollowingdata = sampledata.join(", ")
+                    sfollowingdata = sampledata.join(",")
                     console.log(sfollowingdata);
                 }
               let nsfollowingdata=sfollowingdata;
@@ -87,4 +87,4 @@ async function Removefollowers(data){
       }
     }
 
-  module.exports = Removefollowers;
+  module.exports = Removefollowers;``

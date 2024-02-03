@@ -7,10 +7,18 @@ async function Getuserdetails(data){
     
         const database = client.db('instaclone');
         const collection = database.collection('users');
+        let alldata;
     
         // Check if the email exists in the database
-        let {semail} = data;
-        const alldata = await collection.findOne({ semail });
+        let {sid} = data;
+        if(sid){
+          alldata = await collection.findOne({ sid });
+        }
+        else{
+          let {semail} = data;
+          alldata = await collection.findOne({ semail });
+        }
+        
     
         if (alldata) {
           // Update the password for the matched email
@@ -20,6 +28,7 @@ async function Getuserdetails(data){
           return ('sorry! there is some problem in fetching user details or check your internet connection and try again');
         }
       } catch (error) {
+        console.log('error is : ',error);
         return ('sorry! there is some problem in fetching user details or check your internet connection and try again');
       } finally {
         await client.close();

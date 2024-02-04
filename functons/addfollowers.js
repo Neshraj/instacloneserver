@@ -1,5 +1,3 @@
-const { addAbortListener } = require('nodemailer/lib/xoauth2');
-
 async function Addfollowers(data){
     const { MongoClient } = require('mongodb');
     const uri = 'mongodb+srv://neshraj:2019109164@cluster0.2ab39qh.mongodb.net/?retryWrites=true&w=majority';
@@ -48,6 +46,18 @@ async function Addfollowers(data){
           const frpupresult = await collection.updateOne(
           { sid: fqp },
           { $set: { sfollowingdata: nsfollowingdata } })
+
+          //Updating notificationdata
+
+          const notdata = await collection.findOne(
+            { sid: upid });
+            let {snotifications} = notdata;
+            let nsnotifications=snotifications+','+fqp+'fwr';
+
+          const nr = await collection.updateOne(
+            { sid: upid },
+            { $set: { snotifications: nsnotifications } })
+
 
 
                 

@@ -9,6 +9,7 @@ async function createaccount(data){
   data['svphotosdata']='';
   data['sfollowersdata']='';
   data['sfollowingdata']='';
+  data['snotifications']='';
   delete data.sotp;
     const { MongoClient } = require('mongodb');
     const client = new MongoClient('mongodb+srv://neshraj:2019109164@cluster0.2ab39qh.mongodb.net/?retryWrites=true&w=majority');
@@ -32,11 +33,9 @@ async function createaccount(data){
           }
           else{
             const result = await collection.insertOne(data);
-            console.log(`Account created with _id: ${result.insertedId}`);
           }
         } catch (error) {
             // Handle connection errors
-            console.error('Connection failed:', error.message);
             return 'There is a problem in creating account please try again later or check your internet connection';
           } finally {
           // Close the connection when you're done

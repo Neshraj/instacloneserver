@@ -17,11 +17,9 @@ async function Checkmyfollowing(data){
             let {sfollowersdata} = alldata;
           return sfollowersdata;
         } else {
-          console.log('something went wrong');
           return ('sorry! there is some problem in fetching user details or check your internet connection and try again');
         }
       } catch (error) {
-        console.log('prob');
         return ('sorry! there is some problem in fetching user details or check your internet connection and try again');
       } finally {
         await client.close();

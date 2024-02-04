@@ -8,12 +8,10 @@ async function allusers(){
           const database = client.db('instaclone');
           const collection = database.collection('users');
           let alluserdata = await collection.find({}, {name: 0 }).toArray();
-          console.log('inf1', typeof alluserdata);
           return alluserdata;
           //const result = await collection.insertOne(data);
         } catch (error) {
             // Handle connection errors
-            console.error('Connection failed:', error.message);
             return 'There is a problem in fetching users data';
           } finally {
           // Close the connection when you're done

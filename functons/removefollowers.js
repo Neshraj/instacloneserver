@@ -9,7 +9,6 @@ async function Removefollowers(data){
     
         const database = client.db('instaclone');
         const collection = database.collection('users');
-    
         // Check if the email exists in the database
         let {semail} = data;
         let {upid} = data;
@@ -31,11 +30,8 @@ async function Removefollowers(data){
                 let index = sfollowersdata.indexOf(fqp);
                 if (index !== -1) {
                     let sampledata = sfollowersdata.split(',');
-                    console.log('type is : ',sampledata);
                     sampledata.splice(index, 1);
-                    console.log('type is : ',sampledata);
                     sfollowersdata = sampledata.join(",")
-                    console.log(sfollowersdata);
                 }
                 let nsfollowersdata=sfollowersdata;
 
@@ -55,11 +51,8 @@ async function Removefollowers(data){
               let nindex = sfollowingdata.indexOf(upid);
                 if (nindex !== -1) {
                     let sampledata = sfollowingdata.split(',');
-                    console.log('type is : ',sampledata);
                     sampledata.splice(index, 1);
-                    console.log('type is : ',sampledata);
                     sfollowingdata = sampledata.join(",")
-                    console.log(sfollowingdata);
                 }
               let nsfollowingdata=sfollowingdata;
 
@@ -67,6 +60,18 @@ async function Removefollowers(data){
           const frpupresult = await collection.updateOne(
           { sid: fqp },
           { $set: { sfollowingdata: nsfollowingdata } })
+
+
+          //Updating notificationdata
+
+          const notdata = await collection.findOne(
+          { sid: upid });
+          let {snotifications} = notdata;
+          let nsnotifications=snotifications+','+fqp+'rfwr';
+          
+          const nr = await collection.updateOne(
+          { sid: upid },
+          { $set: { snotifications: nsnotifications } })
 
 
                 
@@ -80,7 +85,6 @@ async function Removefollowers(data){
           //return ('sorry! there is some problem in fetching user details or check your internet connection and try again');
         }
       } catch (error) {
-        console.log('error is : ',error);
         return ('sorry! there is some problem in fetching user details or check your internet connection and try again');
       } finally {
         await client.close();

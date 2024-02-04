@@ -30,7 +30,6 @@ async function login(data){
           //const result = await collection.insertOne(data);
         } catch (error) {
             // Handle connection errors
-            console.error('Connection failed:', error.message);
             return 'There is a problem in logging in try again later';
           } finally {
           // Close the connection when you're done

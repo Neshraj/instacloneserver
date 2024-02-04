@@ -12,7 +12,10 @@ const addfollowers = require('./functons/addfollowers.js');
 const checkfollowing = require('./functons/checkfollowing.js');
 const removefollowers = require('./functons/removefollowers.js');
 const updatedata = require('./functons/updatedata.js');
-const checkmyfollowing = require('./functons/checkmyfollowing')
+const checkmyfollowing = require('./functons/checkmyfollowing');
+const notification = require('./functons/notification.js');
+const clearnotification = require('./functons/clearnotification.js');
+const addreel = require('./functons/addreel.js')
 
 
 app.use(express.json());
@@ -70,6 +73,7 @@ app.use((req, res, next) => {
     next();
   });
 
+
 app.get('/', (req, res) => {
   res.json({ message: 'ok!' });
 });
@@ -81,7 +85,7 @@ app.get('/', (req, res) => {
 //To send otp
 app.post('/sendotp',(req,res)=>{
   const receivedData = req.body;
-  console.log('Recived email for otp is : ',receivedData);
+  //console.log('Recived email for otp is : ',receivedData);
   let {semail} = receivedData;
   sendOtpToEmail(semail,generateOTP());
   res.json({ message: 'OTP sent to your email successfully'+motp});
@@ -149,8 +153,17 @@ app.post('/updatedata', (req, res) => {
 //To list all users
 app.get('/allusers', async (req, res) => {
   let allusersdata= await allusers()
-  console.log('type',typeof allusersdata);
+  //console.log('type',typeof allusersdata);
   res.json({ message: allusersdata});
+
+})
+
+//To add reel
+
+app.get('/addreel', async (req, res) => {
+  let allusersdata= await addreel()
+  //console.log('type',typeof allusersdata);
+  res.json({ message: 'ok'});
 
 })
 
@@ -194,7 +207,7 @@ app.post('/checkfollowing', (req, res) => {
   async function getdata(){
     const receivedData = req.body;
     let alldata = await checkfollowing(receivedData);
-    console.log('type',typeof alldata);
+    //console.log('type',typeof alldata);
     res.json({ message: alldata});
   }
  getdata();
@@ -227,6 +240,42 @@ app.post('/login', (req, res) => {
   }
   log();
 });
+
+
+//To get all notifications
+app.post('/notifications', (req, res) => {
+  async function getnot(){
+    const receivedData = req.body;
+    //console.log('Received data:', receivedData);
+    let logres= await notification(receivedData)
+    if(logres){
+      res.json({ message: logres});
+    }
+    else{
+      res.json({ message: 'User not found with this email and password'});
+    } 
+  }
+  getnot();
+});
+
+//To clear all notifications
+app.post('/clearnotifications', (req, res) => {
+  async function clrnot(){
+    const receivedData = req.body;
+    //console.log('Received data:', receivedData);
+    let logres= await clearnotification(receivedData)
+    if(logres){
+      res.json({ message: logres});
+    }
+    else{
+      res.json({ message: 'User not found with this email and password'});
+    } 
+  }
+  clrnot();
+});
+
+
+
 
 
 

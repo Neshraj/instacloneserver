@@ -28,7 +28,6 @@ async function Getuserdetails(data){
           return ('sorry! there is some problem in fetching user details or check your internet connection and try again');
         }
       } catch (error) {
-        console.log('error is : ',error);
         return ('sorry! there is some problem in fetching user details or check your internet connection and try again');
       } finally {
         await client.close();

@@ -32,6 +32,7 @@ async function Addfollowers(data){
             const upresult = await collection.updateOne(
             { sid: upid },
             { $set: { sfollowersdata: nsfollowersdata } })
+            
             const fqresult = await collection.updateOne(
               { sid: fqp },
               { $inc: { sfollowing: 1 } } )

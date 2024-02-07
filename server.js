@@ -15,7 +15,23 @@ const updatedata = require('./functons/updatedata.js');
 const checkmyfollowing = require('./functons/checkmyfollowing');
 const notification = require('./functons/notification.js');
 const clearnotification = require('./functons/clearnotification.js');
-const addreel = require('./functons/addreel.js')
+const addreel = require('./functons/addreel.js');
+const getallreelsdata = require('./functons/getallreelsdata.js')
+const multer = require('multer');
+const upload = multer();
+
+
+
+//For getreel
+const { MongoClient, GridFSBucket } = require('mongodb');
+const url = 'mongodb+srv://neshraj:2019109164@cluster0.2ab39qh.mongodb.net/?retryWrites=true&w=majority';
+const dbName = 'reels';
+const videoFilename ='myreel1.mp4';
+
+
+//For get reel
+
+
 
 
 app.use(express.json());
@@ -160,12 +176,86 @@ app.get('/allusers', async (req, res) => {
 
 //To add reel
 
-app.get('/addreel', async (req, res) => {
-  let allusersdata= await addreel()
+app.post('/addreel', upload.single('video'), async (req, res) => {
+  try {
+    const videoname = req.body.videoname;
+    const userid = req.body.userid;
+    const videoBuffer = req.file.buffer;
+    //const filename = req.file.originalname; // Extract the filename
+
+    const result = await addreel(videoBuffer, videoname,userid);
+
+    res.json({ message: result });
+  } catch (error) {
+    console.error('Error processing video:', error.message);
+    res.status(500).json({ message: 'Error processing video.' });
+  }
+});
+
+
+
+//To get all reels data
+
+app.get('/getallreelsdata', async (req, res) => {
+  let allusersdata= await getallreelsdata()
   //console.log('type',typeof allusersdata);
-  res.json({ message: 'ok'});
+  res.json({ message: allusersdata});
 
 })
+
+
+
+
+
+
+
+//To stream all reels
+app.get('/stream-video/:filename', async (req, res) => { 
+  const { filename } = req.params;
+  const client = new MongoClient(url);
+
+  try {
+    await client.connect();
+    console.log('Connected to the database');
+
+    const db = client.db(dbName);
+    const bucket = new GridFSBucket(db, { bucketName: 'videos' });
+
+    // Use openDownloadStream to create a read stream from MongoDB
+    const downloadStream = bucket.openDownloadStreamByName(filename);
+
+    // Set the appropriate headers for video streaming
+    res.setHeader('Content-Type', 'video/mp4');
+    res.setHeader('Accept-Ranges', 'bytes');
+
+    // Pipe the MongoDB stream to the response stream
+    downloadStream.pipe(res);
+
+    // Log errors
+    downloadStream.on('error', (err) => {
+      console.error('Error streaming video:', err.message);
+      res.status(500).end();
+    });
+  } catch (err) {
+    console.error('Error connecting to the database:', err.message);
+    res.status(500).end();
+  } finally {
+    // Close the database connection
+    //await client.close();
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 //To get user details
 app.post('/getuserdetails', (req, res) => {

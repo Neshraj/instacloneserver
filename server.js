@@ -21,6 +21,7 @@ const alldataaboutreel = require('./functons/alldataaboutreel.js')
 const addremovelikes = require('./functons/addremovelikes.js')
 const addcommand = require('./functons/addcommand.js')
 const getcommands = require('./functons/getcommands.js')
+const sendreel = require('./functons/sendreel.js');
 const multer = require('multer');
 const upload = multer();
 
@@ -185,9 +186,10 @@ app.post('/addreel', upload.single('video'), async (req, res) => {
     const videoname = req.body.videoname;
     const userid = req.body.userid;
     const videoBuffer = req.file.buffer;
+    const videoDuration = req.file.videoDuration;
     //const filename = req.file.originalname; // Extract the filename
 
-    const result = await addreel(videoBuffer, videoname,userid);
+    const result = await addreel(videoBuffer, videoname,userid,videoDuration);
 
     res.json({ message: result });
   } catch (error) {
@@ -402,6 +404,24 @@ app.post('/notifications', (req, res) => {
   }
   getnot();
 });
+
+
+//To send reels 
+
+app.post('/sendreel', (req, res) => {
+  async function sendrl(){
+    const receivedData = req.body;
+    //console.log('Received data:', receivedData);
+    let logres= await sendreel(receivedData)
+    res.json({ message: logres});
+
+  }
+  sendrl();
+});
+
+
+
+
 
 //To clear all notifications
 app.post('/clearnotifications', (req, res) => {

@@ -1,4 +1,4 @@
- async function Addreel(videoBuffer,filename,userid) {
+ async function Addreel(videoBuffer,filename,userid,videoDuration) {
     const { MongoClient, GridFSBucket } = require('mongodb');
     const { Readable } = require('stream');
   
@@ -28,6 +28,8 @@
         commands: commands,
         likesdata: likesdata,
         numberOfShares: numberOfshares,
+        videoDuration,
+
       };
       
       const uploadStream = bucket.openUploadStream(videoFilename, { metadata: metadata });
@@ -41,9 +43,6 @@
       readableStream.pipe(uploadStream);
 
       // Wait for the upload to finish
-
-  
-      console.log('Video stored successfully.');
       
       const database = client.db('instaclone');
       const collection = database.collection('users');

@@ -27,6 +27,7 @@ async function Removefollowers(data){
             const adddata = await collection.findOne(
                 { sid: upid });
                 let {sfollowersdata} = adddata;
+                
                 let index = sfollowersdata.indexOf(fqp);
                 if (index !== -1) {
                     let sampledata = sfollowersdata.split(',');

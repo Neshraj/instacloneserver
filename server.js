@@ -17,6 +17,10 @@ const notification = require('./functons/notification.js');
 const clearnotification = require('./functons/clearnotification.js');
 const addreel = require('./functons/addreel.js');
 const getallreelsdata = require('./functons/getallreelsdata.js')
+const alldataaboutreel = require('./functons/alldataaboutreel.js')
+const addremovelikes = require('./functons/addremovelikes.js')
+const addcommand = require('./functons/addcommand.js')
+const getcommands = require('./functons/getcommands.js')
 const multer = require('multer');
 const upload = multer();
 
@@ -202,6 +206,57 @@ app.get('/getallreelsdata', async (req, res) => {
   res.json({ message: allusersdata});
 
 })
+
+
+
+
+
+
+//To get all detals about the reel
+app.post('/alldataaboutreel', (req, res) => {
+  async function find(){
+    const receivedData = req.body;
+    let crres = await alldataaboutreel(receivedData);
+    res.json({ message: crres});
+  }
+  find();
+});
+
+
+//To Add and Remove likes
+app.post('/addremovelikes', (req, res) => {
+  async function addrmlike(){
+    const receivedData = req.body;
+    let crres = await addremovelikes(receivedData);
+    res.json({ message: crres});
+  }
+  addrmlike();
+});
+
+
+
+//To add commands
+
+app.post('/addcommand', (req, res) => {
+  async function addcmd(){
+    const receivedData = req.body;
+    let crres = await addcommand(receivedData);
+    res.json({ message: crres});
+  }
+  addcmd();
+});
+
+
+//To get all commands
+
+app.post('/getcommands', (req, res) => {
+  async function getcmd(){
+    const receivedData = req.body;
+    let crres = await getcommands(receivedData);
+    res.json({ message: crres});
+  }
+  getcmd();
+});
 
 
 

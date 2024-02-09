@@ -9,6 +9,8 @@
     let numberOfLikes = 0;
     let numberOfcommands = 0;
     let commands = '';
+    let likesdata = '';
+    let numberOfshares = 0;
     const client = new MongoClient(url);
   
     try {
@@ -19,14 +21,17 @@
       const bucket = new GridFSBucket(db, { bucketName: 'videos' });
   
       // Create a write stream to store the video in MongoDB
-      const uploadStream = bucket.openUploadStream(videoFilename, {
-        metadata: {
-          userId,
-          numberOfLikes,
-          numberOfcommands,
-          commands,
-        },
-      });
+      const metadata = {
+        userId: userId,
+        numberOfLikes: numberOfLikes,
+        numberOfCommands: numberOfcommands,
+        commands: commands,
+        likesdata: likesdata,
+        numberOfShares: numberOfshares,
+      };
+      
+      const uploadStream = bucket.openUploadStream(videoFilename, { metadata: metadata });
+      
   
       // Pipe the video buffer to the MongoDB stream
       const readableStream = new Readable();
@@ -34,13 +39,6 @@
       readableStream.push(null); // Signals the end of the stream
   
       readableStream.pipe(uploadStream);
-
-
-  
-
-
-
-
 
       // Wait for the upload to finish
 
@@ -78,7 +76,7 @@
         const adddata2 = await collection2.findOne(
         { _id: 'reels' });
         let {allreelsdata} = adddata2;
-        let nallreelsdata =allreelsdata+','+filename;
+        let nallreelsdata =allreelsdata+','+filename+'|'+userid;
 
 
         const upresult2 = await collection2.updateOne(

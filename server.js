@@ -171,6 +171,8 @@ app.post('/updatedata', (req, res) => {
 
 
 
+
+
 //To list all users
 app.get('/allusers', async (req, res) => {
   let allusersdata= await allusers()

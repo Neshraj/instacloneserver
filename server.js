@@ -36,11 +36,10 @@ const videoFilename ='myreel1.mp4';
 
 //For get reel
 
-
-
-
 app.use(express.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname, '../frontend/instaclone')));
+
 
 //OTP
 let motp=0;

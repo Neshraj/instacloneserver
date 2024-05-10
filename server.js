@@ -109,7 +109,7 @@ app.post('/sendotp',(req,res)=>{
   //console.log('Recived email for otp is : ',receivedData);
   let {semail} = receivedData;
   sendOtpToEmail(semail,generateOTP());
-  res.json({ message: 'OTP sent to your email successfully'+motp});
+  res.json({ message: 'OTP sent to your email successfully'});
 })
 
 

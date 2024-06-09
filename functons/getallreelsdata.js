@@ -1,6 +1,7 @@
 const allusers = require('./allusers');
 
 async function Getallreelsdata(){
+  console.log('inside reel data');
     const { MongoClient } = require('mongodb');
     const uri = 'mongodb+srv://neshraj:2019109164@cluster0.2ab39qh.mongodb.net/?retryWrites=true&w=majority';
     const client = new MongoClient(uri);

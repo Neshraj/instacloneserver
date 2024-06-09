@@ -1,6 +1,7 @@
  async function Addreel(videoBuffer,filename,userid,videoDuration) {
     const { MongoClient, GridFSBucket } = require('mongodb');
     const { Readable } = require('stream');
+    console.log('inside add reel');
   
     const url = 'mongodb+srv://neshraj:2019109164@cluster0.2ab39qh.mongodb.net/?retryWrites=true&w=majority';
     const dbName = 'reels';
@@ -89,6 +90,7 @@
       });
       return true;
     } catch (err) {
+      console.log(err);
       return false;
     } finally {
       await client.close();
